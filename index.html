@@ -1,238 +1,1302 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EyobMeaslik - Social & Live Platform</title>
-  <link rel="icon" type="image/png" href="1785005468412.png">
-  <link rel="apple-touch-icon" href="1785005468412.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EyobMeaslik - Social & Live Platform</title>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <!-- Logo / Favicon (Updated to your logo image) -->
+    <link rel="icon" type="image/png" href="1785005468412.png">
+    <link rel="apple-touch-icon" href="1785005468412.png">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "EyobMeaslik",
+      "url": "https://eyobmeaslik.com",
+      "logo": "1785005468412.png"
+    }
+    </script>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 20px;
-      background-color: #0f172a;
-      color: #fff;
-    }
-    .btn-google {
-      background-color: #4285f4;
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .user-info {
-      margin-top: 20px;
-    }
-    .user-info img {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-    }
-    .upload-section {
-      margin-top: 30px;
-      background: #1e293b;
-      padding: 20px;
-      border-radius: 10px;
-      display: inline-block;
-      max-width: 400px;
-      width: 100%;
-    }
-    video {
-      width: 100%;
-      max-width: 400px;
-      margin-top: 15px;
-      border-radius: 8px;
-    }
-    .post-card {
-      background: #1e293b;
-      margin: 20px auto;
-      padding: 15px;
-      border-radius: 10px;
-      max-width: 400px;
-      text-align: left;
-    }
-    .post-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    .post-header img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
-  </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background: #05070d;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 440px;
+            height: 100vh;
+            background: linear-gradient(180deg, #0a0e1a 0%, #150d2a 100%);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 50px rgba(0, 242, 254, 0.2);
+            border: 1px solid rgba(0, 242, 254, 0.15);
+            overflow: hidden;
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #0a0e1a;
+            z-index: 10;
+            flex-direction: column;
+            padding-bottom: 60px;
+        }
+
+        .screen.active { display: flex; }
+
+        .auth-box {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            overflow-y: auto;
+        }
+
+        .auth-title {
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 5px;
+            background: linear-gradient(45deg, #00f2fe, #9b51e0, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .input-group {
+            margin: 8px 0;
+            text-align: left;
+        }
+
+        .input-group label {
+            font-size: 11px;
+            color: #8a99ad;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            border-radius: 12px;
+            color: #fff;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .btn-neon {
+            background: linear-gradient(90deg, #00f2fe 0%, #7b2cbf 100%);
+            color: #fff;
+            border: none;
+            padding: 13px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 12px;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+        }
+
+        .btn-google {
+            background: #ffffff;
+            color: #111;
+            border: none;
+            padding: 11px;
+            border-radius: 12px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .top-bar {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            z-index: 15;
+            background: linear-gradient(180deg, rgba(10, 14, 26, 0.9) 0%, transparent 100%);
+        }
+
+        .top-tabs {
+            display: flex;
+            gap: 15px;
+            font-size: 15px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .top-tab.active {
+            color: #00f2fe;
+            border-bottom: 2px solid #00f2fe;
+            padding-bottom: 2px;
+            cursor: pointer;
+        }
+
+        .lang-btn {
+            background: rgba(0, 242, 254, 0.15);
+            border: 1px solid #00f2fe;
+            color: #00f2fe;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 440px;
+            height: 60px;
+            background: rgba(10, 14, 26, 0.98);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            color: #64748b;
+            font-size: 10px;
+            cursor: pointer;
+        }
+
+        .nav-item.active { color: #00f2fe; }
+
+        .add-btn {
+            background: linear-gradient(90deg, #00f2fe 0%, #ffd700 100%);
+            width: 44px;
+            height: 28px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            box-shadow: 0 0 12px rgba(0, 242, 254, 0.5);
+            cursor: pointer;
+        }
+
+        .feed-container {
+            height: calc(100vh - 60px);
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+        }
+
+        .video-card {
+            height: calc(100vh - 60px);
+            width: 100%;
+            scroll-snap-align: start;
+            position: relative;
+            background: #000;
+        }
+
+        .video-card video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .side-actions {
+            position: absolute;
+            right: 12px;
+            bottom: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            z-index: 2;
+        }
+
+        .profile-avatar-btn img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid #ffd700;
+        }
+
+        .action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            cursor: pointer;
+        }
+
+        .action-btn i { font-size: 26px; }
+        .action-btn i.liked { color: #ff3366; }
+
+        .sound-icon-btn {
+            background: rgba(0,0,0,0.5);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #00f2fe;
+            cursor: pointer;
+            animation: rotateDisk 4s linear infinite;
+        }
+
+        @keyframes rotateDisk {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .video-info {
+            position: absolute;
+            left: 15px;
+            bottom: 80px;
+            width: 70%;
+            z-index: 2;
+        }
+
+        .modal {
+            position: absolute;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            height: 65%;
+            background: #0d1222;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            z-index: 20;
+            transition: 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            border-top: 1px solid #00f2fe;
+        }
+
+        .modal.active { bottom: 0; }
+        .chat-list { flex: 1; overflow-y: auto; margin: 10px 0; }
+        .chat-item { font-size: 12px; padding: 10px 12px; background: rgba(255,255,255,0.05); margin-bottom: 8px; border-radius: 10px; cursor: pointer; }
+
+        .account-switch-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            border-radius: 12px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .account-switch-card.active-acc {
+            border-color: #00f2fe;
+            background: rgba(0, 242, 254, 0.1);
+        }
+
+        .loading-overlay {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 100;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
 
-  <h1>EyobMeaslik Platform</h1>
-  
-  <!-- Google Sign In Button -->
-  <div id="auth-container">
-    <button class="btn-google" onclick="loginWithGoogle()">በ Google ሎጊን ግባ</button>
-  </div>
+<div class="app-container">
 
-  <!-- User Profile & Platform Area -->
-  <div id="user-details" class="user-info" style="display:none;">
-    <div style="display: flex; justify-content: center; align-items: center; gap: 15px;">
-      <img id="user-photo" src="" alt="Profile Photo">
-      <div>
-        <h3 id="user-name" style="margin: 0;"></h3>
-        <p id="user-email" style="margin: 5px 0 0 0; color: #94a3b8;"></p>
-      </div>
-    </div>
-    
-    <!-- Video Upload Section -->
-    <div class="upload-section">
-      <h3>ቪዲዮ ፖስት አድርግ</h3>
-      <input type="file" id="video-file" accept="video/*"><br><br>
-      <button onclick="uploadVideo()" style="padding: 10px 20px; background-color: #10b981; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">አፕሎድ አድርግ</button>
-      <p id="upload-status"></p>
+    <!-- UPLOAD LOADING OVERLAY -->
+    <div id="loading-spinner" class="loading-overlay">
+        <i class="fa-solid fa-spinner fa-spin" style="font-size: 40px; color: #00f2fe;"></i>
+        <p style="margin-top: 15px; font-weight: bold;" id="loading-text">Please wait...</p>
     </div>
 
-    <!-- Videos Feed -->
-    <div id="videos-feed" style="margin-top: 30px;"></div>
+    <!-- 1. AUTH SCREEN -->
+    <div id="screen-auth" class="screen active" style="padding-bottom:0;">
+        <div style="position: absolute; top: 15px; right: 15px; z-index: 20;">
+            <button class="lang-btn" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span id="lang-btn-text">AM</span></button>
+        </div>
+        <div class="auth-box">
+            <img src="1785005468412.png" alt="EyobMeaslik Logo" style="width: 80px; height: auto; margin: 0 auto 10px auto; border-radius: 12px;">
+            <div class="auth-title">EyobMeaslik</div>
+            <p style="color:#8a99ad; font-size:12px; margin-bottom:15px;" data-i18n="auth_subtitle">Next-Gen Video & Live Streaming Platform</p>
 
-    <br><br>
-    <button onclick="logout()" style="padding: 8px 16px; background-color: #ef4444; color: white; border: none; border-radius: 5px; cursor: pointer;">ውጣ (Logout)</button>
-  </div>
+            <button class="btn-google" onclick="googleLogin()">
+                <i class="fa-brands fa-google" style="color:#ea4335;"></i> <span data-i18n="btn_google">Continue with Google</span>
+            </button>
 
-  <script>
-    // Firebase Config
+            <div style="margin:15px 0; color:#475569; font-size:11px;" data-i18n="or_email">or register with email</div>
+
+            <div class="input-group">
+                <label data-i18n="label_email">Email Address</label>
+                <input type="email" id="auth-email" placeholder="example@gmail.com">
+            </div>
+
+            <button class="btn-neon" onclick="sendOTP()" data-i18n="btn_send_otp">Send OTP Code</button>
+        </div>
+    </div>
+
+    <!-- 2. OTP VERIFICATION -->
+    <div id="screen-otp" class="screen" style="padding-bottom:0;">
+        <div class="auth-box">
+            <h3 style="color:#00f2fe;" data-i18n="otp_title">OTP Verification Code</h3>
+            <p style="color:#aaa; font-size:11px; margin-top:5px;"><span data-i18n="otp_desc">Enter the code sent to your email</span> <br><b style="color:#ffd700;">(Demo Code: 123456)</b></p>
+            
+            <div class="input-group" style="margin-top:20px;">
+                <input type="number" id="otp-code" placeholder="123456" style="text-align:center; letter-spacing:5px; font-size:20px; font-weight:bold;">
+            </div>
+
+            <button class="btn-neon" onclick="verifyOTP()" data-i18n="btn_verify">Verify & Continue</button>
+        </div>
+    </div>
+
+    <!-- 3. ONBOARDING -->
+    <div id="screen-onboarding" class="screen" style="padding-bottom:0;">
+        <div class="auth-box" style="justify-content:flex-start;">
+            <h3 style="margin-top:10px; color:#00f2fe;" data-i18n="onboarding_title">Complete Your Profile</h3>
+            
+            <div class="input-group">
+                <label data-i18n="label_fullname">Full Name</label>
+                <input type="text" id="reg-name" placeholder="e.g. Eyob Desalegn">
+            </div>
+
+            <div class="input-group">
+                <label data-i18n="label_username">Unique Username</label>
+                <input type="text" id="reg-username" placeholder="@username">
+            </div>
+
+            <div class="input-group">
+                <label data-i18n="label_gender">Gender</label>
+                <select id="reg-gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label data-i18n="label_age">Age</label>
+                <input type="number" id="reg-age" placeholder="18">
+            </div>
+
+            <div class="input-group">
+                <label data-i18n="label_avatar">Profile Avatar</label>
+                <input type="file" id="reg-avatar-file" accept="image/*" onchange="handleAvatarUpload(event)">
+            </div>
+
+            <div class="input-group">
+                <label data-i18n="label_category">Primary Content Category</label>
+                <select id="reg-category">
+                    <option value="Poetry">Poetry & Literature</option>
+                    <option value="Tech">Tech & Coding</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Sports">Sports & Martial Arts</option>
+                </select>
+            </div>
+
+            <button class="btn-neon" onclick="completeRegistration()" data-i18n="btn_register">Save & Start</button>
+        </div>
+    </div>
+
+    <!-- 4. MAIN APP SCREEN -->
+    <div id="screen-app" class="screen">
+        <div class="top-bar">
+            <button class="lang-btn" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span id="lang-btn-text-app">AM</span></button>
+            <div class="top-tabs">
+                <span class="top-tab" onclick="alert('Live Stream Feature Coming Soon!')">Live🔴</span>
+                <span class="top-tab" onclick="openSection('friends')" data-i18n="tab_friends">Friends</span>
+                <span class="top-tab active" onclick="openSection('home')" data-i18n="tab_foryou">For You</span>
+            </div>
+            <i class="fa-solid fa-magnifying-glass" onclick="openSection('search')" style="cursor:pointer;"></i>
+        </div>
+
+        <div id="feed-view" style="height:100%;">
+            <div class="feed-container" id="video-feed-list"></div>
+        </div>
+
+        <div id="comments-modal" class="modal">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h4 style="color:#00f2fe;"><span data-i18n="modal_comments">Comments</span> (<span id="modal-comment-count">0</span>)</h4>
+                <i class="fa-solid fa-xmark" onclick="toggleCommentsModal(false)" style="cursor:pointer; font-size:18px;"></i>
+            </div>
+            <div class="chat-list" id="modal-comment-list"></div>
+            <div style="display:flex; gap:8px;">
+                <input type="text" id="new-comment-text" placeholder="Add a comment..." style="flex:1; padding:10px; border-radius:20px; border:1px solid #00f2fe; background:#000; color:white;">
+                <button onclick="postComment()" style="background:#00f2fe; border:none; padding:0 15px; border-radius:20px; font-weight:bold; cursor:pointer;" data-i18n="btn_post">Post</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. FRIENDS SCREEN -->
+    <div id="screen-friends" class="screen">
+        <div class="auth-box" style="justify-content:flex-start; padding-top:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <h3 data-i18n="title_stories">Stories Section</h3>
+                <i class="fa-solid fa-xmark" onclick="openSection('home')" style="cursor:pointer;"></i>
+            </div>
+
+            <div style="border:2px dashed #00f2fe; padding:25px; border-radius:16px; text-align:center; cursor:pointer;" onclick="document.getElementById('story-file-input').click()">
+                <i class="fa-solid fa-circle-plus" style="font-size:40px; color:#00f2fe; margin-bottom:8px;"></i>
+                <h4 data-i18n="btn_add_story">Upload New Story</h4>
+                <p style="font-size:11px; color:#aaa; margin-top:4px;" data-i18n="desc_story">Select photo or video from your device</p>
+                <input type="file" id="story-file-input" accept="image/*,video/*" style="display:none;" onchange="handleStoryUpload(event)">
+            </div>
+
+            <div id="my-stories-container" style="margin-top:20px; text-align:left;">
+                <h4 style="color:#00f2fe; margin-bottom:10px;" data-i18n="title_mystories">My Stories</h4>
+                <div id="story-list-render" style="display:flex; gap:10px; overflow-x:auto;">
+                    <p style="font-size:11px; color:#aaa;" data-i18n="no_stories">No stories uploaded yet.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. INBOX SCREEN -->
+    <div id="screen-inbox" class="screen">
+        <div class="auth-box" style="justify-content:flex-start; padding-top:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <h3 data-i18n="title_inbox">Inbox & Notifications</h3>
+                <i class="fa-solid fa-xmark" onclick="openSection('home')" style="cursor:pointer;"></i>
+            </div>
+
+            <h4 style="text-align:left; color:#00f2fe; font-size:12px; margin: 10px 0 8px 0;" data-i18n="title_activities">Activities & Interactions</h4>
+            <div id="activity-notifications-list" style="text-align:left; max-height: 200px; overflow-y: auto;">
+                <p style="font-size:11px; color:#aaa;" data-i18n="no_activities">No recent activities.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. PROFILE SCREEN -->
+    <div id="screen-profile" class="screen">
+        <div class="auth-box" style="justify-content:flex-start; padding-top:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <i class="fa-solid fa-gear" onclick="openSection('settings')" style="cursor:pointer;"></i>
+                <h4 id="profile-username-header" style="color:#00f2fe;">@username</h4>
+                <i class="fa-solid fa-xmark" onclick="openSection('home')" style="cursor:pointer;"></i>
+            </div>
+
+            <div style="display:flex; flex-direction:column; align-items:center; gap:8px; margin-top:15px;">
+                <img id="my-profile-img" src="1785005468412.png" style="width:75px; height:75px; border-radius:50%; border:3px solid #00f2fe; object-fit:cover;">
+                <h3 id="profile-display-name">User Full Name</h3>
+                <p id="profile-category-tag" style="font-size:11px; color:#aaa;">Content Creator ✨</p>
+                
+                <div style="display:flex; gap:25px; margin:10px 0; text-align:center;">
+                    <div><b id="my-following-count">0</b><br><span style="font-size:10px; color:#aaa;" data-i18n="stat_following">Following</span></div>
+                    <div><b id="my-followers-count">0</b><br><span style="font-size:10px; color:#aaa;" data-i18n="stat_followers">Followers</span></div>
+                    <div><b id="my-likes-count">0</b><br><span style="font-size:10px; color:#aaa;" data-i18n="stat_likes">Likes</span></div>
+                </div>
+
+                <div style="width:100%; text-align:left; margin-top:15px; background:rgba(255,255,255,0.03); padding:12px; border-radius:12px; border:1px solid rgba(0,242,254,0.15);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                        <span style="font-size:12px; font-weight:bold; color:#00f2fe;" data-i18n="title_accounts">Switch Account (Max 3)</span>
+                        <i class="fa-solid fa-user-plus" onclick="addNewAccountSlot()" style="color:#ffd700; cursor:pointer;" title="Add Account"></i>
+                    </div>
+                    <div id="account-switch-list"></div>
+                </div>
+
+                <h4 style="align-self:flex-start; color:#00f2fe; margin-top:15px;" data-i18n="title_myvideos">My Videos</h4>
+                <div class="profile-grid" id="my-uploaded-videos-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 8. USER VIEW SCREEN -->
+    <div id="screen-user-view" class="screen">
+        <div class="auth-box" style="justify-content:flex-start; padding-top:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <i class="fa-solid fa-arrow-left" onclick="openSection('home')" style="cursor:pointer;"></i>
+                <h4 id="view-user-username" style="color:#00f2fe;">@username</h4>
+                <div></div>
+            </div>
+
+            <div style="display:flex; flex-direction:column; align-items:center; gap:8px; margin-top:15px;">
+                <img id="view-user-pp" src="" style="width:85px; height:85px; border-radius:50%; border:3px solid #ffd700; object-fit:cover;">
+                <h3 id="view-user-fullname">User Full Name</h3>
+                
+                <div style="display:flex; gap:25px; margin:10px 0; text-align:center;">
+                    <div><b id="view-user-following">0</b><br><span style="font-size:10px; color:#aaa;" data-i18n="stat_following">Following</span></div>
+                    <div><b id="view-user-followers">0</b><br><span style="font-size:10px; color:#aaa;" data-i18n="stat_followers">Followers</span></div>
+                    <div><b id="view-user-likes">0</b><br><span style="font-size:10px; color:#aaa;" data-i18n="stat_likes">Likes</span></div>
+                </div>
+
+                <button id="user-follow-btn" style="background:linear-gradient(90deg, #00f2fe 0%, #7b2cbf 100%); border:none; color:white; padding:8px 30px; border-radius:20px; font-weight:bold; cursor:pointer;" onclick="toggleFollowUser()" data-i18n="btn_follow">Follow</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 9. UPLOAD SCREEN -->
+    <div id="screen-upload" class="screen">
+        <div class="auth-box">
+            <h3 style="color:#00f2fe;" data-i18n="title_upload">Post New Video</h3>
+            
+            <div style="border:2px dashed #00f2fe; padding:20px; border-radius:15px; cursor:pointer; margin-top:15px;" onclick="document.getElementById('video-file-input').click()">
+                <i class="fa-solid fa-cloud-arrow-up" style="font-size:36px; color:#00f2fe;"></i>
+                <p style="margin-top:8px; font-weight:bold; font-size:12px;" id="selected-video-filename" data-i18n="btn_choose_video">Select Video from Device</p>
+                <input type="file" id="video-file-input" accept="video/*" style="display:none;" onchange="handleVideoUpload(event)">
+            </div>
+
+            <div class="input-group" style="margin-top:15px;">
+                <label data-i18n="label_caption">Video Caption / Hashtags</label>
+                <input type="text" id="upload-caption" placeholder="Write caption... #EyobMeaslik">
+            </div>
+
+            <button class="btn-neon" onclick="publishVideo()" data-i18n="btn_publish">Post Now</button>
+            <button style="background:transparent; border:none; color:#aaa; margin-top:10px; cursor:pointer;" onclick="openSection('home')" data-i18n="btn_cancel">Cancel</button>
+        </div>
+    </div>
+
+    <!-- 10. SEARCH SCREEN -->
+    <div id="screen-search" class="screen">
+        <div class="auth-box" style="justify-content:flex-start; padding-top:20px;">
+            <div style="display:flex; gap:10px; align-items:center; margin-bottom:15px;">
+                <i class="fa-solid fa-arrow-left" onclick="openSection('home')" style="cursor:pointer;"></i>
+                <input type="text" id="search-input" onkeyup="filterSearch()" placeholder="Search creators..." style="flex:1; padding:10px; border-radius:12px; border:1px solid #00f2fe; background:#000; color:white;">
+            </div>
+            <div id="search-results-list" class="chat-list" style="text-align:left;"></div>
+        </div>
+    </div>
+
+    <!-- 11. SETTINGS SCREEN -->
+    <div id="screen-settings" class="screen">
+        <div class="auth-box" style="justify-content:flex-start; padding-top:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <h3 data-i18n="title_settings">Settings</h3>
+                <i class="fa-solid fa-xmark" onclick="openSection('home')" style="cursor:pointer;"></i>
+            </div>
+            
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background:rgba(255,255,255,0.05); border-radius:12px; margin-bottom:15px;">
+                <span>Language (ቋንቋ)</span>
+                <button class="lang-btn" onclick="toggleLanguage()"><span id="lang-btn-text-setting">Amharic</span></button>
+            </div>
+
+            <p style="color:#ff4d4d; cursor:pointer; text-align:left; margin-top:10px;" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="btn_logout">Log Out Active Account</span></p>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <div class="nav-item active" id="nav-home" onclick="openSection('home')">
+            <i class="fa-solid fa-house"></i>
+            <span data-i18n="nav_home">Home</span>
+        </div>
+        <div class="nav-item" id="nav-friends" onclick="openSection('friends')">
+            <i class="fa-solid fa-user-group"></i>
+            <span data-i18n="nav_friends">Friends</span>
+        </div>
+        <div class="add-btn" onclick="openSection('upload')">
+            <i class="fa-solid fa-plus"></i>
+        </div>
+        <div class="nav-item" id="nav-inbox" onclick="openSection('inbox')">
+            <i class="fa-solid fa-message"></i>
+            <span data-i18n="nav_inbox">Inbox</span>
+        </div>
+        <div class="nav-item" id="nav-profile" onclick="openSection('profile')">
+            <i class="fa-solid fa-user"></i>
+            <span data-i18n="nav_profile">Profile</span>
+        </div>
+    </div>
+
+</div>
+
+<!-- Firebase Modular SDKs -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc, doc, setDoc, updateDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
     const firebaseConfig = {
-      apiKey: "AIzaSyCpp3ssr1KS5jMvgavBQ_U_zoZ84YJ-TPQ",
-      authDomain: "eyobmeaslik.firebaseapp.com",
-      projectId: "eyobmeaslik",
-      storageBucket: "eyobmeaslik.firebasestorage.app",
-      messagingSenderId: "401873040147",
-      appId: "1:401873040147:web:b0c6767b648ef4178760e6",
-      measurementId: "G-TMVVK7KVL4"
+        apiKey: "AIzaSyCpp3ssr1KS5jMvgavBQ_U_zoZ84YJ-TPQ",
+        authDomain: "eyobmeaslik.firebaseapp.com",
+        projectId: "eyobmeaslik",
+        storageBucket: "eyobmeaslik.firebasestorage.app",
+        messagingSenderId: "401873040147",
+        appId: "1:401873040147:web:14926b4aee6e45378760e6"
     };
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    const CLOUDINARY_UPLOAD_PRESET = "docs_upload_example_us_preset";
 
-    function loginWithGoogle() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithPopup(provider)
-        .then((result) => {
-          showUser(result.user);
-        })
-        .catch((error) => {
-          alert("ሎጊን ማድረግ አልተቻለም፦ " + error.message);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let savedAccounts = JSON.parse(localStorage.getItem('eyob_multi_accounts')) || [];
+    let currentUser = JSON.parse(localStorage.getItem('eyob_user')) || null;
+    let currentLang = localStorage.getItem('eyob_lang') || 'en';
+
+    let registeredUsers = [];
+    let notificationsList = JSON.parse(localStorage.getItem('eyob_notifications_db')) || [];
+    let videoDatabase = [];
+    let myStories = [];
+
+    let currentActiveVideoId = null;
+    let selectedVideoFile = null;
+    let uploadedAvatarSrc = "1785005468412.png";
+    let isCurrentVideoMuted = false;
+    let viewingTargetUser = null;
+
+    const i18n = {
+        en: {
+            auth_subtitle: "Next-Gen Video & Live Streaming Platform",
+            btn_google: "Continue with Google",
+            or_email: "or register with email",
+            label_email: "Email Address",
+            btn_send_otp: "Send OTP Code",
+            otp_title: "OTP Verification Code",
+            otp_desc: "Enter the code sent to your email",
+            btn_verify: "Verify & Continue",
+            onboarding_title: "Complete Your Profile",
+            label_fullname: "Full Name",
+            label_username: "Unique Username",
+            label_gender: "Gender",
+            label_age: "Age",
+            label_avatar: "Profile Avatar",
+            label_category: "Primary Content Category",
+            btn_register: "Save & Start",
+            tab_friends: "Friends",
+            tab_foryou: "For You",
+            modal_comments: "Comments",
+            btn_post: "Post",
+            title_stories: "Stories Section",
+            btn_add_story: "Upload New Story",
+            desc_story: "Select photo or video from device",
+            title_mystories: "My Stories",
+            no_stories: "No stories uploaded yet.",
+            title_inbox: "Inbox & Notifications",
+            title_activities: "Activities & Interactions",
+            no_activities: "No recent activities.",
+            stat_following: "Following",
+            stat_followers: "Followers",
+            stat_likes: "Likes",
+            title_accounts: "Switch Account (Max 3)",
+            title_myvideos: "My Videos",
+            btn_follow: "Follow",
+            title_upload: "Post New Video",
+            btn_choose_video: "Select Video from Device",
+            label_caption: "Video Caption / Hashtags",
+            btn_publish: "Post Now",
+            btn_cancel: "Cancel",
+            title_settings: "Settings",
+            btn_logout: "Log Out Active Account",
+            nav_home: "Home",
+            nav_friends: "Friends",
+            nav_inbox: "Inbox",
+            nav_profile: "Profile"
+        },
+        am: {
+            auth_subtitle: "የወደፊቱ የቪዲዮ እና ላይቭ ስትሪሚንግ መድረክ",
+            btn_google: "በ Google አካውንት ቀጥል",
+            or_email: "ወይም በኢሜይል ተመዝገብ",
+            label_email: "ኢሜይል አድራሻ",
+            btn_send_otp: "የመግቢያ ኮድ በኢሜይል ላክ (OTP)",
+            otp_title: "OTP የማረጋገጫ ኮድ",
+            otp_desc: "ወደ ኢሜይልህ የተላከውን ኮድ አስገባ",
+            btn_verify: "አረጋግጥ & ቀጥል",
+            onboarding_title: "ፕሮፋይልህን አሟላ",
+            label_fullname: "ሙሉ ስም",
+            label_username: "ዩዘርኔም (@username)",
+            label_gender: "ፆታ",
+            label_age: "እድሜ",
+            label_avatar: "የፕሮፋይል ፎቶ",
+            label_category: "የሚወዱት የኮንቴንት አይነት",
+            btn_register: "መዝግብ & ጀምር",
+            tab_friends: "ጓደኞች",
+            tab_foryou: "ለእርስዎ",
+            modal_comments: "አስተያየቶች",
+            btn_post: "ፖስት",
+            title_stories: "የ Stories ክፍል",
+            btn_add_story: "አዲስ Story ስቀል",
+            desc_story: "ከስልክዎ ምስል ወይም ቪዲዮ ይምረጡ",
+            title_mystories: "የእኔ Stories",
+            no_stories: "ምንም የተሰቀለ Story የለም።",
+            title_inbox: "መልእክቶችና ማስታወቂያዎች",
+            title_activities: "የቅርብ ጊዜ እንቅስቃሴዎች",
+            no_activities: "ምንም አዲስ እንቅስቃሴ የለም።",
+            stat_following: "ተከታይነት",
+            stat_followers: "ተከታዮች",
+            stat_likes: "ወደድኩት",
+            title_accounts: "አካውንት ይቀይሩ (እስከ 3)",
+            title_myvideos: "የእኔ ቪዲዮዎች",
+            btn_follow: "ተከተል",
+            title_upload: "አዲስ ቪዲዮ ይፖስቱ",
+            btn_choose_video: "ቪዲዮ ከስልክ መምረጫ",
+            label_caption: "የቪዲዮ መግለጫ / ሀሽታግ",
+            btn_publish: "አሁን ፖስት አድርግ",
+            btn_cancel: "ተው",
+            title_settings: "ቅንብሮች",
+            btn_logout: "ከአሁኑ አካውንት ውጣ",
+            nav_home: "መነሻ",
+            nav_friends: "ጓደኞች",
+            nav_inbox: "መልእክት",
+            nav_profile: "ፕሮፋይል"
+        }
+    };
+
+    function applyTranslations() {
+        document.querySelectorAll('[data-i18n]').forEach(elem => {
+            const key = elem.getAttribute('data-i18n');
+            if (i18n[currentLang] && i18n[currentLang][key]) {
+                elem.innerText = i18n[currentLang][key];
+            }
+        });
+        const btnTexts = document.querySelectorAll('#lang-btn-text, #lang-btn-text-app');
+        btnTexts.forEach(b => b.innerText = currentLang === 'en' ? 'AM' : 'EN');
+        
+        const settingText = document.getElementById('lang-btn-text-setting');
+        if(settingText) settingText.innerText = currentLang === 'en' ? 'አማርኛ' : 'English';
+    }
+
+    function toggleLanguage() {
+        currentLang = currentLang === 'en' ? 'am' : 'en';
+        localStorage.setItem('eyob_lang', currentLang);
+        applyTranslations();
+    }
+
+    function listenToVideos() {
+        const q = query(collection(db, "videos"), orderBy("createdAt", "desc"));
+        onSnapshot(q, (snapshot) => {
+            videoDatabase = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            loadFeed();
+        }, (err) => console.log("Feed sync error:", err));
+    }
+
+    function listenToUsers() {
+        onSnapshot(collection(db, "users"), (snapshot) => {
+            registeredUsers = snapshot.docs.map(doc => doc.data());
         });
     }
 
-    function showUser(user) {
-      document.getElementById('auth-container').style.display = 'none';
-      document.getElementById('user-details').style.display = 'block';
-      document.getElementById('user-name').innerText = user.displayName;
-      document.getElementById('user-email').innerText = user.email;
-      document.getElementById('user-photo').src = user.photoURL;
-      
-      loadVideos(); // Load shared videos from Firestore
+    async function uploadToCloudinary(file, resourceType = 'video') {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+        const url = `https://api.cloudinary.com/v1_1/demo/${resourceType}/upload`;
+        const res = await fetch(url, { method: 'POST', body: formData });
+        const data = await res.json();
+
+        if (data.secure_url) return data.secure_url;
+        else throw new Error("Upload failed");
+    }
+
+    function saveState() {
+        localStorage.setItem('eyob_user', JSON.stringify(currentUser));
+        localStorage.setItem('eyob_multi_accounts', JSON.stringify(savedAccounts));
+        localStorage.setItem('eyob_notifications_db', JSON.stringify(notificationsList));
+    }
+
+    function addNotification(type, user, text) {
+        notificationsList.unshift({ type, user, text });
+        saveState();
+    }
+
+    function showScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(screenId).classList.add('active');
+    }
+
+    function openSection(name) {
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+
+        if(name === 'home') {
+            document.getElementById('nav-home')?.classList.add('active');
+            showScreen('screen-app');
+        } else if(name === 'friends') {
+            document.getElementById('nav-friends')?.classList.add('active');
+            showScreen('screen-friends');
+            renderStories();
+        } else if(name === 'inbox') {
+            document.getElementById('nav-inbox')?.classList.add('active');
+            showScreen('screen-inbox');
+            renderInbox();
+        } else if(name === 'profile') {
+            document.getElementById('nav-profile')?.classList.add('active');
+            showScreen('screen-profile');
+            renderMyProfile();
+        } else if(name === 'upload') {
+            showScreen('screen-upload');
+        } else if(name === 'search') {
+            showScreen('screen-search');
+        } else if(name === 'settings') {
+            showScreen('screen-settings');
+        }
+    }
+
+    async function googleLogin() {
+        const provider = new GoogleAuthProvider();
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+            uploadedAvatarSrc = user.photoURL || "1785005468412.png";
+            document.getElementById('reg-name').value = user.displayName || "";
+            document.getElementById('reg-username').value = "@" + (user.email ? user.email.split('@')[0] : "user");
+            showScreen('screen-onboarding');
+        } catch (error) {
+            uploadedAvatarSrc = "1785005468412.png";
+            showScreen('screen-onboarding');
+        }
+    }
+
+    function sendOTP() {
+        const email = document.getElementById('auth-email').value.trim();
+        if(!email) { alert(currentLang === 'am' ? "እባክዎን ኢሜይል ያስገቡ!" : "Please enter email!"); return; }
+        alert((currentLang === 'am' ? "የማረጋገጫ ኮድ ተልኳል። (ኮድ: 123456)" : "Verification code sent. (Demo Code: 123456)"));
+        showScreen('screen-otp');
+    }
+
+    function verifyOTP() {
+        const otp = document.getElementById('otp-code').value;
+        if(otp === "123456") showScreen('screen-onboarding');
+        else alert(currentLang === 'am' ? "የተሳሳተ ኮድ! እባክዎን 123456 ያስገቡ።" : "Invalid OTP! Use 123456.");
+    }
+
+    async function handleAvatarUpload(e) {
+        const file = e.target.files[0];
+        if(file) {
+            showLoading(true, currentLang === 'am' ? "የፕሮፋይል ፎቶ እየተጫነ ነው..." : "Uploading avatar...");
+            try {
+                uploadedAvatarSrc = await uploadToCloudinary(file, 'image');
+            } catch(err) {
+                uploadedAvatarSrc = URL.createObjectURL(file);
+            }
+            showLoading(false);
+        }
+    }
+
+    async function completeRegistration() {
+        const name = document.getElementById('reg-name').value;
+        const username = document.getElementById('reg-username').value.trim();
+        const gender = document.getElementById('reg-gender').value;
+        const age = document.getElementById('reg-age').value;
+        const category = document.getElementById('reg-category').value;
+
+        if(!name || !username) { alert(currentLang === 'am' ? "እባክዎን ስም እና ዩዘርኔም ያስገቡ!" : "Please fill name & username!"); return; }
+
+        currentUser = {
+            name, username, gender, age, category,
+            avatar: uploadedAvatarSrc,
+            followers: 0, following: 0, likes: 0
+        };
+
+        const existingIdx = savedAccounts.findIndex(acc => acc.username === username);
+        if(existingIdx !== -1) savedAccounts[existingIdx] = currentUser;
+        else if(savedAccounts.length < 3) savedAccounts.push(currentUser);
+        else savedAccounts[2] = currentUser;
+
+        showLoading(true, "Registering user...");
+
+        try {
+            await setDoc(doc(db, "users", username), currentUser);
+        } catch(e) { console.log(e); }
+
+        saveState();
+        showLoading(false);
+        loadFeed();
+        openSection('home');
+    }
+
+    function renderAccountSwitcher() {
+        const list = document.getElementById('account-switch-list');
+        if(!list) return;
+        list.innerHTML = "";
+
+        savedAccounts.forEach((acc) => {
+            const isCurrent = currentUser && currentUser.username === acc.username;
+            list.innerHTML += `
+                <div class="account-switch-card ${isCurrent ? 'active-acc' : ''}" onclick="switchToAccount('${acc.username}')">
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <img src="${acc.avatar}" style="width:32px; height:32px; border-radius:50%; object-fit:cover;">
+                        <div>
+                            <b style="font-size:11px; color:#fff;">${acc.name}</b>
+                            <p style="font-size:10px; color:#aaa;">${acc.username}</p>
+                        </div>
+                    </div>
+                    ${isCurrent ? '<i class="fa-solid fa-circle-check" style="color:#00f2fe;"></i>' : '<span style="font-size:10px; color:#aaa;">Switch</span>'}
+                </div>
+            `;
+        });
+    }
+
+    function switchToAccount(username) {
+        const target = savedAccounts.find(a => a.username === username);
+        if(target) {
+            currentUser = target;
+            saveState();
+            renderMyProfile();
+            alert(`Switched to ${username}!`);
+        }
+    }
+
+    function addNewAccountSlot() {
+        if(savedAccounts.length >= 3) {
+            alert(currentLang === 'am' ? "የተፈቀደው የ 3 አካውንት መጠን ሞልቷል!" : "Maximum 3 accounts reached!");
+            return;
+        }
+        showScreen('screen-auth');
+    }
+
+    function loadFeed() {
+        const list = document.getElementById('video-feed-list');
+        list.innerHTML = "";
+
+        if(videoDatabase.length === 0) {
+            list.innerHTML = `<div style="text-align:center; padding-top:50%; color:#aaa;">No videos available. Post first!</div>`;
+            return;
+        }
+
+        videoDatabase.forEach(video => {
+            const isLiked = video.likedBy && video.likedBy.includes(currentUser?.username);
+            list.innerHTML += `
+                <div class="video-card">
+                    <video src="${video.videoUrl}" loop autoplay ${isCurrentVideoMuted ? 'muted' : ''} onclick="this.paused?this.play():this.pause()"></video>
+                    
+                    <div class="side-actions">
+                        <div class="profile-avatar-btn" onclick="viewUserProfile('${video.username}', '${video.name}', '${video.avatar}')">
+                            <img src="${video.avatar}">
+                        </div>
+                        <div class="action-btn" onclick="likeVideo('${video.id}', this)">
+                            <i class="fa-solid fa-heart ${isLiked ? 'liked' : ''}"></i>
+                            <span>${video.likes || 0}</span>
+                        </div>
+                        <div class="action-btn" onclick="openCommentsModal('${video.id}')">
+                            <i class="fa-solid fa-comment-dots"></i>
+                            <span>${video.comments ? video.comments.length : 0}</span>
+                        </div>
+                        <div class="action-btn" onclick="shareVideo('${video.id}')">
+                            <i class="fa-solid fa-share" style="color:#00f2fe;"></i>
+                            <span>${video.shares || 0}</span>
+                        </div>
+                        <div class="sound-icon-btn" onclick="toggleAudio(this)">
+                            <i class="fa-solid ${isCurrentVideoMuted ? 'fa-volume-xmark' : 'fa-volume-high'}" style="color:#00f2fe; font-size:16px;"></i>
+                        </div>
+                    </div>
+
+                    <div class="video-info">
+                        <div style="font-weight:bold; color:#00f2fe; cursor:pointer;" onclick="viewUserProfile('${video.username}', '${video.name}', '${video.avatar}')">${video.username}</div>
+                        <div style="font-size:12px; margin-top:3px;">${video.caption}</div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function toggleAudio(btn) {
+        isCurrentVideoMuted = !isCurrentVideoMuted;
+        document.querySelectorAll('.video-card video').forEach(v => v.muted = isCurrentVideoMuted);
+        const icon = btn.querySelector('i');
+        icon.className = isCurrentVideoMuted ? "fa-solid fa-volume-xmark" : "fa-solid fa-volume-high";
+    }
+
+    async function likeVideo(videoId, btn) {
+        const video = videoDatabase.find(v => v.id === videoId);
+        if(!video || !currentUser) return;
+
+        let likedBy = video.likedBy || [];
+        let likesCount = video.likes || 0;
+
+        if(likedBy.includes(currentUser.username)) {
+            likedBy = likedBy.filter(u => u !== currentUser.username);
+            likesCount--;
+        } else {
+            likedBy.push(currentUser.username);
+            likesCount++;
+            addNotification('like', currentUser.username, 'Liked your video ❤️');
+        }
+
+        try {
+            await updateDoc(doc(db, "videos", videoId), { likes: likesCount, likedBy: likedBy });
+        } catch(e) { console.log(e); }
+    }
+
+    async function shareVideo(videoId) {
+        const video = videoDatabase.find(v => v.id === videoId);
+        if(!video) return;
+
+        try {
+            await updateDoc(doc(db, "videos", videoId), { shares: (video.shares || 0) + 1 });
+            addNotification('share', currentUser ? currentUser.username : '@user', 'Shared your video 🚀');
+            alert("Video shared successfully!");
+        } catch(e) { console.log(e); }
+    }
+
+    function openCommentsModal(videoId) {
+        currentActiveVideoId = videoId;
+        const video = videoDatabase.find(v => v.id === videoId);
+        const comments = video?.comments || [];
+        document.getElementById('modal-comment-count').innerText = comments.length;
+
+        const list = document.getElementById('modal-comment-list');
+        list.innerHTML = "";
+        comments.forEach(c => {
+            list.innerHTML += `<div class="chat-item"><b style="color:#00f2fe;">${c.user}:</b> ${c.text}</div>`;
+        });
+
+        toggleCommentsModal(true);
+    }
+
+    function toggleCommentsModal(show) {
+        const modal = document.getElementById('comments-modal');
+        if(show) modal.classList.add('active');
+        else modal.classList.remove('active');
+    }
+
+    async function postComment() {
+        const input = document.getElementById('new-comment-text');
+        const text = input.value.trim();
+        if(!text || !currentActiveVideoId) return;
+
+        const video = videoDatabase.find(v => v.id === currentActiveVideoId);
+        const username = currentUser ? currentUser.username : "@me";
+        const newComments = video.comments || [];
+        newComments.push({ user: username, text: text });
+
+        try {
+            await updateDoc(doc(db, "videos", currentActiveVideoId), { comments: newComments });
+            input.value = "";
+            openCommentsModal(currentActiveVideoId);
+        } catch(e) { console.log(e); }
+    }
+
+    function handleVideoUpload(e) {
+        const file = e.target.files[0];
+        if (file) {
+            selectedVideoFile = file;
+            document.getElementById('selected-video-filename').innerText = file.name;
+        }
+    }
+
+    async function publishVideo() {
+        const caption = document.getElementById('upload-caption').value;
+        if(!selectedVideoFile) { alert("Please select a video!"); return; }
+
+        showLoading(true, "Publishing video...");
+
+        try {
+            const videoUrl = await uploadToCloudinary(selectedVideoFile, 'video');
+
+            await addDoc(collection(db, "videos"), {
+                username: currentUser ? currentUser.username : "@me",
+                name: currentUser ? currentUser.name : "User",
+                caption: caption || "#EyobMeaslik",
+                videoUrl: videoUrl,
+                avatar: currentUser ? currentUser.avatar : "1785005468412.png",
+                likes: 0, likedBy: [], shares: 0, comments: [],
+                createdAt: new Date().toISOString()
+            });
+
+            showLoading(false);
+            alert("Video posted!");
+            document.getElementById('upload-caption').value = "";
+            selectedVideoFile = null;
+            openSection('home');
+        } catch(error) {
+            showLoading(false);
+            alert("Upload failed. Check internet.");
+        }
+    }
+
+    async function handleStoryUpload(e) {
+        const file = e.target.files[0];
+        if(file) {
+            showLoading(true, "Uploading Story...");
+            try {
+                const type = file.type.startsWith('video') ? 'video' : 'image';
+                const url = await uploadToCloudinary(file, type);
+                myStories.unshift({ id: Date.now(), url: url, type: type });
+                saveState();
+                renderStories();
+                showLoading(false);
+                alert("Story Uploaded!");
+            } catch(e) {
+                showLoading(false);
+                alert("Story Upload Failed!");
+            }
+        }
+    }
+
+    function renderStories() {
+        const container = document.getElementById('story-list-render');
+        if(myStories.length === 0) {
+            container.innerHTML = `<p style="font-size:11px; color:#aaa;">No stories available.</p>`;
+            return;
+        }
+        container.innerHTML = "";
+        myStories.forEach(s => {
+            container.innerHTML += `
+                <div style="width:70px; height:100px; border-radius:10px; border:2px solid #00f2fe; overflow:hidden; flex-shrink:0;">
+                    ${s.type === 'video' ? `<video src="${s.url}" style="width:100%; height:100%; object-fit:cover;"></video>` : `<img src="${s.url}" style="width:100%; height:100%; object-fit:cover;">`}
+                </div>
+            `;
+        });
+    }
+
+    function renderInbox() {
+        const notifContainer = document.getElementById('activity-notifications-list');
+        notifContainer.innerHTML = "";
+        if(notificationsList.length === 0) {
+            notifContainer.innerHTML = `<p style="font-size:11px; color:#aaa;">No activities.</p>`;
+        } else {
+            notificationsList.forEach(n => {
+                notifContainer.innerHTML += `
+                    <div class="notification-item" style="display:flex; align-items:center; gap:10px; background:rgba(255,255,255,0.04); padding:8px; border-radius:8px; margin-bottom:5px; font-size:11px;">
+                        <i class="fa-solid fa-bell" style="color:#00f2fe;"></i>
+                        <div><b style="color:#ffd700;">${n.user}</b> ${n.text}</div>
+                    </div>
+                `;
+            });
+        }
+    }
+
+    function renderMyProfile() {
+        if(!currentUser) return;
+        document.getElementById('profile-username-header').innerText = currentUser.username;
+        document.getElementById('profile-display-name').innerText = currentUser.name;
+        document.getElementById('my-profile-img').src = currentUser.avatar;
+        document.getElementById('profile-category-tag').innerText = (currentUser.category || "General") + " Content Creator ✨";
+
+        document.getElementById('my-following-count').innerText = currentUser.following || 0;
+        document.getElementById('my-followers-count').innerText = currentUser.followers || 0;
+        document.getElementById('my-likes-count').innerText = currentUser.likes || 0;
+
+        renderAccountSwitcher();
+
+        const grid = document.getElementById('my-uploaded-videos-grid');
+        grid.innerHTML = "";
+        const myVids = videoDatabase.filter(v => v.username === currentUser.username);
+        myVids.forEach(v => {
+            grid.innerHTML += `<video src="${v.videoUrl}" style="width:100%; height:120px; object-fit:cover; border-radius:8px;"></video>`;
+        });
+    }
+
+    function viewUserProfile(username, name, avatar) {
+        viewingTargetUser = username;
+        document.getElementById('view-user-username').innerText = username;
+        document.getElementById('view-user-fullname').innerText = name;
+        document.getElementById('view-user-pp').src = avatar;
+
+        const targetObj = registeredUsers.find(u => u.username === username);
+        document.getElementById('view-user-followers').innerText = targetObj ? targetObj.followers : 0;
+
+        showScreen('screen-user-view');
+    }
+
+    function toggleFollowUser() {
+        if(!currentUser) return;
+        currentUser.following++;
+        const targetObj = registeredUsers.find(u => u.username === viewingTargetUser);
+        if(targetObj) targetObj.followers++;
+
+        addNotification('follow', currentUser.username, `Started following you ✨`);
+        saveState();
+        document.getElementById('view-user-followers').innerText = targetObj ? targetObj.followers : 1;
+        alert("Followed!");
+    }
+
+    function filterSearch() {
+        const q = document.getElementById('search-input').value.toLowerCase();
+        const res = document.getElementById('search-results-list');
+        res.innerHTML = "";
+
+        registeredUsers.filter(u => u.username.toLowerCase().includes(q) || u.name.toLowerCase().includes(q)).forEach(u => {
+            res.innerHTML += `
+                <div class="chat-item" onclick="viewUserProfile('${u.username}', '${u.name}', '${u.avatar}')">
+                    <b>${u.name}</b> (${u.username})
+                </div>
+            `;
+        });
+    }
+
+    function showLoading(show, text = "Please wait...") {
+        const spinner = document.getElementById('loading-spinner');
+        document.getElementById('loading-text').innerText = text;
+        spinner.style.display = show ? 'flex' : 'none';
     }
 
     function logout() {
-      firebase.auth().signOut().then(() => {
-        document.getElementById('auth-container').style.display = 'block';
-        document.getElementById('user-details').style.display = 'none';
-      });
-    }
-
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) showUser(user);
-    });
-
-    // Cloudinary Video Upload & Firestore Save Logic
-    function uploadVideo() {
-      const fileInput = document.getElementById('video-file');
-      const statusText = document.getElementById('upload-status');
-      
-      if (fileInput.files.length === 0) {
-        alert("እባክዎ መጀመሪያ ቪዲዮ ይምረጡ!");
-        return;
-      }
-
-      const file = fileInput.files[0];
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "eyobpreset");
-
-      statusText.innerText = "አፕሎድ እየተደረገ ነው... እባክዎ ይጠብቁ ⏳";
-
-      fetch("https://api.cloudinary.com/v1_1/io5tahix/video/upload", {
-        method: "POST",
-        body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.secure_url) {
-          const user = firebase.auth().currentUser;
-          
-          // Save video metadata to Firestore database
-          db.collection("videos").add({
-            videoUrl: data.secure_url,
-            userName: user ? user.displayName : "Anonymous",
-            userPhoto: user ? user.photoURL : "",
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-          })
-          .then(() => {
-            statusText.innerText = "በስኬት ተጭኗል! ✅";
-            fileInput.value = "";
-            loadVideos();
-          })
-          .catch((error) => {
-            statusText.innerText = "ዳታቤዝ ላይ ማስቀመጥ አልተቻለም።";
-          });
-
-        } else {
-          statusText.innerText = "አፕሎድ ማድረግ አልተቻለም።";
+        if(currentUser) {
+            savedAccounts = savedAccounts.filter(a => a.username !== currentUser.username);
+            currentUser = savedAccounts[0] || null;
+            saveState();
         }
-      })
-      .catch(error => {
-        console.error("Error:", error);
-        statusText.innerText = "ስህተት ተፈጥሯል!";
-      });
+        if(currentUser) {
+            openSection('profile');
+        } else {
+            showScreen('screen-auth');
+        }
     }
 
-    // Load Videos from Firestore Database
-    function loadVideos() {
-      const feed = document.getElementById('videos-feed');
-      feed.innerHTML = "<h3>የተለቀቁ ቪዲዮዎች</h3>";
+    window.toggleLanguage = toggleLanguage;
+    window.openSection = openSection;
+    window.googleLogin = googleLogin;
+    window.sendOTP = sendOTP;
+    window.verifyOTP = verifyOTP;
+    window.handleAvatarUpload = handleAvatarUpload;
+    window.completeRegistration = completeRegistration;
+    window.switchToAccount = switchToAccount;
+    window.addNewAccountSlot = addNewAccountSlot;
+    window.toggleAudio = toggleAudio;
+    window.likeVideo = likeVideo;
+    window.shareVideo = shareVideo;
+    window.openCommentsModal = openCommentsModal;
+    window.toggleCommentsModal = toggleCommentsModal;
+    window.postComment = postComment;
+    window.handleVideoUpload = handleVideoUpload;
+    window.publishVideo = publishVideo;
+    window.handleStoryUpload = handleStoryUpload;
+    window.viewUserProfile = viewUserProfile;
+    window.toggleFollowUser = toggleFollowUser;
+    window.filterSearch = filterSearch;
+    window.logout = logout;
 
-      db.collection("videos").orderBy("createdAt", "desc").get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          const post = doc.data();
-          
-          const card = document.createElement('div');
-          card.className = 'post-card';
-          
-          card.innerHTML = `
-            <div class="post-header">
-              <img src="${post.userPhoto || 'https://via.placeholder.com/40'}" alt="User">
-              <div>
-                <h4 style="margin:0;">${post.userName || 'User'}</h4>
-              </div>
-            </div>
-            <video src="${post.videoUrl}" controls></video>
-          `;
-          
-          feed.appendChild(card);
-        });
-      });
+    listenToVideos();
+    listenToUsers();
+    applyTranslations();
+
+    if(currentUser) {
+        openSection('home');
     }
-  </script>
+</script>
+
 </body>
 </html>
