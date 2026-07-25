@@ -5,13 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EyobMeaslik - Social & Live Platform</title>
 
-    <!-- Logo / Favicon (Updated to your logo image) -->
+    <!-- Logo / Favicon -->
     <link rel="icon" type="image/png" href="1785005468412.png">
     <link rel="apple-touch-icon" href="1785005468412.png">
     
     <script type="application/ld+json">
     {
-      
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "EyobMeaslik",
+      "url": "https://eyobmeaslik.com",
+      "logo": "1785005468412.png"
     }
     </script>
 
@@ -651,7 +655,9 @@
         appId: "1:401873040147:web:14926b4aee6e45378760e6"
     };
 
-    const CLOUDINARY_UPLOAD_PRESET = "docs_upload_example_us_preset";
+    // እንደጠየቀው የተስተካከለው የ Cloudinary ፕሪሴት ስም እና ክላውድ ስም (Cloud Name ን በራስህ የ Cloudinary Cloud Name መሙላት ትችላለህ)
+    const CLOUDINARY_UPLOAD_PRESET = "eyob_preset";
+    const CLOUDINARY_CLOUD_NAME = "demo"; // ← 'demo' የሚለውን በራስህ የ Cloudinary Cloud Name ቀይረው (ለምሳሌ: dxy123abc)
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
@@ -808,12 +814,12 @@
         formData.append('file', file);
         formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
 
-        const url = `https://api.cloudinary.com/v1_1/demo/${resourceType}/upload`;
+        const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`;
         const res = await fetch(url, { method: 'POST', body: formData });
         const data = await res.json();
 
         if (data.secure_url) return data.secure_url;
-        else throw new Error("Upload failed");
+        else throw new Error("Upload failed: " + (data.error?.message || "Unknown error"));
     }
 
     function saveState() {
